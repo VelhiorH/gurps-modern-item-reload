@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>GURPS item sheet preview</title>
+    <link
+      rel="stylesheet"
+      href="file:///F:/Program%20Files/Foundry%20Virtual%20Tabletop/resources/app/public/fonts/fontawesome/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="file:///F:/Program%20Files/Foundry%20Virtual%20Tabletop/resources/app/public/css/foundry2.css"
+    />
+    <link
+      rel="stylesheet"
+      href="file:///C:/Users/User/AppData/Local/FoundryVTT/Data/systems/gurps/gurps.css"
+    />
+    <link rel="stylesheet" href="../styles/gurps-item-modern.css" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: #2a2a2a;
+      }
+      body {
+        padding: 20px;
+      }
+      .preview-root {
+        position: relative !important;
+        inset: auto !important;
+        width: 760px;
+        height: 720px;
+      }
+      .preview-note {
+        margin: 0 0 12px;
+        color: #ddd;
+        font: 13px/1.4 sans-serif;
+      }
+    </style>
+  </head>
+  <body class="system-gurps">
+    <p class="preview-note">GURPS item sheet — статический preview (light / dark через ?dark=1)</p>
+
+    <div class="app window-app sheet item gurps-item-modern preview-root" data-appid="1">
+      <header class="window-header flexrow">
+        <h4 class="window-title">Ржавый охотничий нож</h4>
+        <a class="header-button control close"><i class="fa-solid fa-times"></i></a>
+      </header>
+      <section class="window-content">
+        <form class="gga-app item-editor" autocomplete="off">
+          <div class="gga-item-sheet-title color-equipment">
+            <div>
+              <i class="fa-solid fa-screwdriver-wrench itemdraggable"></i>
+              <span class="first-cap">Снаряжение</span>
+            </div>
+          </div>
+
+          <div class="gurps-2col right-bias">
+            <div class="full-width">
+              <input id="itemname" type="text" class="title" value="Ржавый охотничий нож" />
+            </div>
+
+            <div class="image-column">
+              <div
+                class="img-display itemdraggable"
+                style="background-image: linear-gradient(135deg, #7d8a6f, #4d5a45); border: solid 1px black"
+              >
+                <img class="profile-img itemdraggable" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" />
+              </div>
+              <div class="add-quick-roll-option">
+                <input class="quick-roll gcs-input-sm25" type="checkbox" checked />
+                <div class="label">Добавить в быстрый бросок</div>
+              </div>
+            </div>
+
+            <div class="gga-group">
+              <h2>Атрибуты</h2>
+              <div class="gurps-label-field-grid-4">
+                <label>Количество</label>
+                <div class="icon-prefix">
+                  <input class="digits-only" type="number" value="1" />
+                  <span><i class="fa-solid fa-plus-minus"></i></span>
+                </div>
+                <label>Стоимость</label>
+                <div class="icon-prefix">
+                  <input class="decimal-digits-only" type="number" value="120" />
+                  <span>$</span>
+                </div>
+                <label>Вес</label>
+                <div class="icon-prefix">
+                  <input class="decimal-digits-only" type="number" value="0.5" />
+                  <span><i class="fa-solid fa-weight-hanging"></i></span>
+                </div>
+                <label>Использований</label>
+                <div class="icon-prefix">
+                  <input class="digits-only" type="number" value="0" />
+                  <span><i class="fa-solid fa-expand"></i></span>
+                </div>
+                <label>Импорт: игнорировать кол-во</label>
+                <div><input type="checkbox" /></div>
+                <label>Ссылка на PDF</label>
+                <div class="icon-prefix">
+                  <input type="text" value="B 276" />
+                  <span><i class="fa-solid fa-bookmark"></i></span>
+                </div>
+                <label>Заметки</label>
+                <div class="span-3">
+                  <textarea class="notes" rows="4">Тупой, но всё ещё режет. Смазан жиром и плохо пахнет.</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+          <div>
+            <h2>Свойства предмета</h2>
+            <div class="flexcol">
+              <nav class="gurps-sheet-tabs tabs gurps-tabs" data-group="sections">
+                <a class="item active" data-tab="melee-tab"><i class="fa-solid fa-hand-fist"></i>&nbsp;Ближний бой&nbsp;<span style="font-size: 80%">(1)</span></a>
+                <a class="item" data-tab="range-tab"><i class="fa-solid fa-fighter-jet"></i>&nbsp;Дальний бой&nbsp;<span style="font-size: 80%"></span></a>
+                <a class="item" data-tab="spell-tab"><i class="fa-solid fa-wand-magic-sparkles"></i>&nbsp;Заклинания&nbsp;<span style="font-size: 80%"></span></a>
+                <a class="item" data-tab="ads-tab"><i class="fa-solid fa-theater-masks"></i>&nbsp;Преимущества&nbsp;<span style="font-size: 80%"></span></a>
+                <a class="item" data-tab="skill-tab"><i class="fa-solid fa-person-swimming"></i>&nbsp;Навыки&nbsp;<span style="font-size: 80%"></span></a>
+                <a class="item" data-tab="bonus-tab"><i class="fa-solid fa-plus-minus"></i>&nbsp;Бонусы&nbsp;<span style="font-size: 80%"></span></a>
+              </nav>
+
+              <section id="config-tabs" class="content">
+                <div class="tab active" data-tab="melee-tab" data-group="sections">
+                  <div class="gga-group inputs">
+                    <h4 class="with-button">
+                      Атака ближнего боя (swing)
+                      <span class="delete button" data-path="system.melee"><i class="fa-solid fa-trash"></i></span>
+                    </h4>
+                    <div class="gurps-label-field-grid-6">
+                      <label>Уровень навыка</label>
+                      <div class="span-5"><input type="text" value="13" /></div>
+                      <label>Использование</label>
+                      <div><input type="text" value="swing" /></div>
+                      <label>Урон</label>
+                      <div><input type="text" value="sw+1 cut" /></div>
+                      <label>Досягаемость</label>
+                      <div><input type="text" value="1" /></div>
+                      <label>Парирование</label>
+                      <div><input type="text" value="10" /></div>
+                      <label>ST</label>
+                      <div><input type="text" value="10" /></div>
+                      <label>Блок</label>
+                      <div><input type="text" value="" /></div>
+                      <label>Штраф базового парирования</label>
+                      <div><input type="number" value="0" /></div>
+                      <label></label>
+                      <div></div>
+                      <label>Заметки</label>
+                      <div class="span-5"><textarea class="notes" rows="2">Ржавое лезвие.</textarea></div>
+                    </div>
+                    <div class="label-value-row right-bias">
+                      <label>Проверка</label>
+                      <div><input type="text" value="" /></div>
+                      <label>В течение</label>
+                      <div><input type="text" value="" /></div>
+                      <label>Успех</label>
+                      <div><input type="text" value="" /></div>
+                      <label>Провал</label>
+                      <div><input type="text" value="" /></div>
+                    </div>
+                  </div>
+                  <div class="vertical-gap"></div>
+                  <div class="button-bar">
+                    <button id="add-melee"><i class="fa-solid fa-check"></i> Добавить атаку</button>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </form>
+      </section>
+      <div class="window-resizable-handle"><i class="fa-solid fa-left-right fa-rotate-by"></i></div>
+    </div>
+
+    <pre id="debug" style="display: none; color: #ddd; font: 12px/1.4 monospace; white-space: pre-wrap"></pre>
+    <script>
+      const params = new URLSearchParams(location.search);
+      if (params.has('dark')) document.body.classList.add('theme-dark');
+      if (params.has('small')) {
+        const root = document.querySelector('.preview-root');
+        root.style.width = '680px';
+        root.style.height = '420px';
+      }
+      if (params.has('debug')) {
+        window.addEventListener('load', () => {
+          const pick = (selector, props) => {
+            const element = document.querySelector(selector);
+            if (!element) return { selector, missing: true };
+            const style = getComputedStyle(element);
+            return Object.fromEntries([['selector', selector], ...props.map(prop => [prop, style[prop]])]);
+          };
+          const input = document.querySelector('#itemname');
+          const matchingRules = [];
+          for (const sheet of document.styleSheets) {
+            let rules;
+            try {
+              rules = sheet.cssRules;
+            } catch (err) {
+              continue;
+            }
+            const walk = list => {
+              for (const rule of list) {
+                if (rule.cssRules) {
+                  walk(rule.cssRules);
+                  continue;
+                }
+                if (!rule.selectorText || !rule.selectorText.includes('input')) continue;
+                try {
+                  if (input.matches(rule.selectorText)) matchingRules.push(rule.selectorText + ' {' + rule.style.cssText + '}');
+                } catch (err) {
+                  /* ignore unsupported selectors */
+                }
+              }
+            };
+            walk(rules);
+          }
+
+          const sheets = [...document.styleSheets];
+          const perSheet = sheets.map(sheet => {
+            sheets.forEach(other => (other.disabled = other !== sheet));
+            const style = getComputedStyle(input);
+            return {
+              href: sheet.href?.split('/').pop(),
+              fontSize: style.fontSize,
+              height: style.height,
+              textAlign: style.textAlign,
+              padding: style.padding,
+              lineHeight: style.lineHeight,
+            };
+          });
+          sheets.forEach(sheet => (sheet.disabled = false));
+
+          const debug = document.getElementById('debug');
+          debug.style.display = 'block';
+          debug.textContent = JSON.stringify(
+            [
+              pick('#itemname', ['fontSize', 'lineHeight', 'height', 'textAlign', 'fontWeight', 'fontFamily', 'color', 'backgroundColor', 'paddingLeft']),
+              pick('.item-editor', ['fontSize', 'textAlign', 'fontFamily']),
+              pick('.gga-item-sheet-title', ['background', 'backgroundColor', 'color', 'fontSize', 'position', 'top', 'margin', 'padding']),
+              pick('.gga-group h4', ['backgroundColor', 'color', 'textAlign', 'fontSize', 'padding', 'margin']),
+              pick('.gurps-tabs', ['display', 'flexWrap', 'width', 'height', 'padding']),
+              pick('.gurps-tabs .item.active', ['color', 'borderBottomColor', 'fontSize', 'fontWeight']),
+              pick('.gga-group', ['backgroundColor', 'borderColor', 'borderRadius', 'padding']),
+              { perSheet },
+            ],
+            null,
+            2
+          );
+        });
+      }
+    </script>
+  </body>
+</html>

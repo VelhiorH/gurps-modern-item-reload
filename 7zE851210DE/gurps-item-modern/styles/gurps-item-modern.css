@@ -1,0 +1,980 @@
+/* ==========================================================================
+   GURPS Item Sheet: Modern
+   Restyles the GURPS Foundry item sheet with the visual language of the
+   system's Modern character sheet. Only presentation is changed: the system
+   template, data model and item logic are not touched.
+
+   All colors and sizes are taken from the system's own --ms-* tokens with
+   fallbacks, so light and dark Foundry themes are supported automatically.
+   ========================================================================== */
+
+.window-app.sheet.item.gurps-item-modern {
+  /* Design tokens (system Modern sheet values as fallbacks) */
+  --gim-font: "Roboto", "Signika", "Segoe UI", sans-serif;
+  --gim-accent: var(--ms-accent, #3e6a4d);
+  --gim-accent-hover: var(--ms-modifier-positive-hover, #4f7d5f);
+  --gim-accent-light: var(--ms-accent-light, rgba(62, 106, 77, 0.1));
+  --gim-bg: var(--ms-bg, #f8f6f2);
+  --gim-bg-header: var(--ms-bg-header, #f0ede8);
+  --gim-bg-card: var(--ms-bg-card, #ffffff);
+  --gim-bg-section: var(--ms-bg-section, #fafaf8);
+  --gim-bg-hover: var(--ms-bg-hover, #f0ede8);
+  --gim-bg-muted: var(--ms-bg-muted, #eceae6);
+  --gim-border: var(--ms-border, #d8d4cc);
+  --gim-border-light: var(--ms-border-light, #e8e4dc);
+  --gim-text: var(--ms-text, #1a1a1a);
+  --gim-text-muted: var(--ms-text-muted, #555555);
+  --gim-text-dim: var(--ms-text-dim, #888888);
+  --gim-danger: var(--ms-disadvantage, #8b3a3a);
+  --gim-danger-bg: var(--ms-disadvantage-bg, rgba(139, 58, 58, 0.08));
+  --gim-radius-sm: var(--ms-radius-sm, 3px);
+  --gim-radius: var(--ms-radius, 4px);
+  --gim-radius-md: var(--ms-radius-md, 6px);
+  --gim-font-xs: var(--ms-font-xs, 0.75rem);
+  --gim-font-sm: var(--ms-font-sm, 0.8125rem);
+  --gim-font-md: var(--ms-font-md, 0.875rem);
+  --gim-font-lg: var(--ms-font-lg, 1rem);
+  --gim-space: var(--ms-space-4, 8px);
+
+  min-width: 680px;
+  min-height: 420px;
+  background: var(--gim-bg);
+  border: 1px solid var(--gim-border);
+  border-radius: var(--gim-radius-md);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+  color: var(--gim-text);
+  font-family: var(--gim-font);
+  backdrop-filter: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.window-app.sheet.item.gurps-item-modern,
+.window-app.sheet.item.gurps-item-modern *,
+.window-app.sheet.item.gurps-item-modern *::before,
+.window-app.sheet.item.gurps-item-modern *::after {
+  box-sizing: border-box;
+}
+
+/* Window chrome ----------------------------------------------------------- */
+
+.window-app.sheet.item.gurps-item-modern .window-header {
+  min-height: 30px;
+  padding: 0 8px;
+  background: var(--gim-bg-header);
+  background-image: none;
+  border-bottom: 1px solid var(--gim-border);
+  border-top-left-radius: var(--gim-radius-md);
+  border-top-right-radius: var(--gim-radius-md);
+  color: var(--gim-text);
+  text-shadow: none;
+}
+
+.window-app.sheet.item.gurps-item-modern .window-header .window-title {
+  color: var(--gim-text);
+  font-family: var(--gim-font);
+  font-size: var(--gim-font-sm);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-shadow: none;
+}
+
+.window-app.sheet.item.gurps-item-modern .window-header .header-button,
+.window-app.sheet.item.gurps-item-modern .window-header .header-button.control {
+  color: var(--gim-text-muted);
+  text-shadow: none;
+}
+
+.window-app.sheet.item.gurps-item-modern .window-header .header-button:hover {
+  color: var(--gim-accent);
+  text-shadow: none;
+}
+
+/* Window body ------------------------------------------------------------- */
+
+.window-app.sheet.item.gurps-item-modern .window-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  background: var(--gim-bg);
+  background-image: none;
+  border-radius: 0 0 var(--gim-radius-md) var(--gim-radius-md);
+  color: var(--gim-text);
+}
+
+.window-app.sheet.item.gurps-item-modern .window-content > form.gga-app.item-editor {
+  flex: 1 1 auto;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 12px 14px 14px;
+  gap: 10px;
+  align-items: stretch;
+  justify-items: stretch;
+  overflow-x: hidden;
+  overflow-y: auto;
+  color: var(--gim-text);
+  font-family: var(--gim-font);
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gim-border) transparent;
+}
+
+/* Item type banner (previously a bright colored bar) ---------------------- */
+
+.window-app.sheet.item.gurps-item-modern .gga-item-sheet-title {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  box-sizing: border-box;
+  min-height: 32px;
+  margin: -12px -14px 2px;
+  padding: 7px 14px;
+  justify-content: flex-start;
+  gap: 8px;
+  background: var(--gim-bg-header);
+  border-bottom: 1px solid var(--gim-border);
+  color: var(--gim-text-muted);
+  font-family: var(--gim-font);
+  font-size: var(--gim-font-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+  text-shadow: none;
+}
+
+.window-app.sheet.item.gurps-item-modern .gga-item-sheet-title > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.window-app.sheet.item.gurps-item-modern .gga-item-sheet-title i {
+  color: var(--gim-item-accent, var(--gim-accent));
+  font-size: 0.95rem;
+}
+
+.window-app.sheet.item.gurps-item-modern .gga-item-sheet-title span {
+  color: inherit;
+}
+
+.window-app.sheet.item.gurps-item-modern .gga-item-sheet-title .first-cap::first-letter {
+  font-size: inherit;
+  text-transform: inherit;
+}
+
+.window-app.sheet.item.gurps-item-modern .gga-item-sheet-title.color-equipment {
+  --gim-item-accent: var(--ms-accent, #3e6a4d);
+}
+
+.window-app.sheet.item.gurps-item-modern .gga-item-sheet-title.color-feature {
+  --gim-item-accent: var(--ms-fp, #3268a8);
+}
+
+.window-app.sheet.item.gurps-item-modern .gga-item-sheet-title.color-skill {
+  --gim-item-accent: var(--ms-accent, #3e6a4d);
+}
+
+.window-app.sheet.item.gurps-item-modern .gga-item-sheet-title.color-spell {
+  --gim-item-accent: var(--ms-disadvantage, #8b3a3a);
+}
+
+/* Name, portrait and attribute card --------------------------------------- */
+
+.window-app.sheet.item.gurps-item-modern .item-editor input#itemname.title {
+  width: 100%;
+  height: auto;
+  min-height: 34px;
+  padding: 6px 10px;
+  background: var(--gim-bg-card);
+  border: 1px solid var(--gim-border);
+  border-radius: var(--gim-radius-sm);
+  color: var(--gim-text);
+  font-family: var(--gim-font);
+  font-size: var(--gim-font-lg);
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  text-shadow: none;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor input#itemname.title:focus {
+  border-color: var(--gim-accent);
+  box-shadow: 0 0 0 2px var(--gim-accent-light);
+  outline: none;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor > .gurps-2col.right-bias {
+  display: grid;
+  grid-template-columns: minmax(96px, 140px) minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  justify-items: stretch;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor > .gurps-2col.right-bias > .full-width {
+  grid-column: 1 / -1;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .image-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .image-column .img-display {
+  width: 100%;
+  height: 190px;
+  overflow: hidden;
+  background-color: var(--gim-bg-card);
+  border: 1px solid var(--gim-border) !important;
+  border-radius: var(--gim-radius);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .image-column .img-display > img {
+  cursor: pointer;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .image-column .add-quick-roll-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  color: var(--gim-text-muted);
+  font-size: var(--gim-font-xs);
+  line-height: 1.25;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .image-column .add-quick-roll-option .quick-roll {
+  flex: 0 0 14px;
+  width: 14px !important;
+  height: 14px !important;
+  min-height: 14px !important;
+  max-width: 14px !important;
+  margin: 1px 0 0;
+  padding: 0 !important;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .image-column .add-quick-roll-option .label {
+  flex: 1 1 auto;
+}
+
+/* Section headings -------------------------------------------------------- */
+
+.window-app.sheet.item.gurps-item-modern .item-editor h2 {
+  margin: 0 0 6px;
+  padding: 0 0 4px;
+  border-bottom: 1px solid var(--gim-border-light);
+  color: var(--gim-text-muted);
+  font-family: var(--gim-font);
+  font-size: var(--gim-font-xs);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-shadow: none;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor h3 {
+  margin: 0 0 4px;
+  color: var(--gim-text-muted);
+  font-family: var(--gim-font);
+  font-size: var(--gim-font-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-shadow: none;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor h4,
+.window-app.sheet.item.gurps-item-modern .item-editor h4.with-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 6px;
+  padding: 0 0 4px;
+  background: transparent;
+  border-bottom: 1px solid var(--gim-border-light);
+  color: var(--gim-text-muted);
+  font-family: var(--gim-font);
+  font-size: var(--gim-font-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: left;
+  text-transform: uppercase;
+  text-shadow: none;
+}
+
+/* Cards ------------------------------------------------------------------- */
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gga-group,
+.window-app.sheet.item.gurps-item-modern .item-editor .gga-group.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: auto;
+  padding: 8px 10px;
+  background: var(--gim-bg-card);
+  border: 1px solid var(--gim-border);
+  border-right: 1px solid var(--gim-border);
+  border-radius: var(--gim-radius);
+  text-align: left;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gga-group > h2:first-child,
+.window-app.sheet.item.gurps-item-modern .item-editor .gga-group > h3:first-child {
+  margin-top: 0;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .flexcol {
+  gap: 4px;
+}
+
+/* Grids and field labels -------------------------------------------------- */
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-label-field-grid-4 {
+  grid-template-columns: minmax(6.5em, 8em) minmax(0, 1fr) minmax(6.5em, 8em) minmax(0, 1fr);
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-label-field-grid-6 {
+  grid-template-columns:
+    minmax(6em, 7.5em) minmax(0, 1fr)
+    minmax(4.5em, 6.5em) minmax(0, 1fr)
+    minmax(4.5em, 6.5em) minmax(0, 1fr);
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-label-field-grid-4,
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-label-field-grid-6 {
+  gap: 4px 8px;
+  align-items: center;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-2col.no-gap {
+  gap: 4px 8px;
+  align-items: center;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .label-value-row {
+  gap: 4px 6px;
+  align-items: center;
+  align-content: start;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor label {
+  color: var(--gim-text-muted);
+  font-family: var(--gim-font);
+  font-size: var(--gim-font-xs);
+  font-weight: 500;
+  line-height: 1.15;
+  text-align: right;
+  text-shadow: none;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .label-value-row label {
+  min-width: 7em;
+  padding-left: 0.35em;
+  padding-right: 0.15em;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-label-field-grid-4 label,
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-label-field-grid-6 label {
+  padding-left: 0.35em;
+  padding-right: 0.15em;
+}
+
+/* Inputs ------------------------------------------------------------------ */
+
+.window-app.sheet.item.gurps-item-modern .item-editor input[type="text"],
+.window-app.sheet.item.gurps-item-modern .item-editor input[type="number"],
+.window-app.sheet.item.gurps-item-modern .item-editor input[type="search"],
+.window-app.sheet.item.gurps-item-modern .item-editor select,
+.window-app.sheet.item.gurps-item-modern .item-editor textarea {
+  height: 26px;
+  min-height: 26px;
+  padding: 2px 8px;
+  background: var(--gim-bg-card);
+  border: 1px solid var(--gim-border);
+  border-radius: var(--gim-radius-sm);
+  box-shadow: none;
+  color: var(--gim-text);
+  font-family: var(--gim-font);
+  font-size: var(--gim-font-md);
+  text-shadow: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor textarea {
+  width: 100%;
+  height: auto;
+  min-height: 52px;
+  padding: 5px 8px;
+  line-height: 1.4;
+  resize: vertical;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor input:focus,
+.window-app.sheet.item.gurps-item-modern .item-editor select:focus,
+.window-app.sheet.item.gurps-item-modern .item-editor textarea:focus {
+  border-color: var(--gim-accent);
+  box-shadow: 0 0 0 2px var(--gim-accent-light);
+  outline: none;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor input:disabled,
+.window-app.sheet.item.gurps-item-modern .item-editor textarea:disabled {
+  background: var(--gim-bg-section);
+  color: var(--gim-text-dim);
+  opacity: 1;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor input[type="checkbox"] {
+  --checkbox-size: 14px;
+  --checkbox-background-color: var(--gim-border);
+  --checkbox-checked-color: var(--gim-accent);
+  --checkbox-disabled-color: var(--gim-border);
+  --checkbox-checkmark-color: #ffffff;
+  width: 14px;
+  height: 14px;
+  min-height: 14px;
+  margin: 0;
+  accent-color: var(--gim-accent);
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor input::placeholder,
+.window-app.sheet.item.gurps-item-modern .item-editor textarea::placeholder {
+  color: var(--gim-text-dim);
+  opacity: 1;
+}
+
+/* Inputs with a leading icon ---------------------------------------------- */
+
+.window-app.sheet.item.gurps-item-modern .item-editor .icon-prefix {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .icon-prefix > input:not([type="checkbox"]) {
+  padding-left: 2.4em;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .icon-prefix > span {
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2em;
+  height: 26px;
+  background: var(--gim-bg-section);
+  border: 1px solid var(--gim-border);
+  border-radius: var(--gim-radius-sm) 0 0 var(--gim-radius-sm);
+  color: var(--gim-text-muted);
+  font-size: var(--gim-font-xs);
+}
+
+/* Section tabs ------------------------------------------------------------ */
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-sheet-tabs {
+  display: block;
+  flex-grow: 0;
+  padding: 0;
+  margin: 0 0 2px;
+  z-index: 2;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-sheet-tabs::after {
+  content: none;
+  display: none;
+  background: none;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2px;
+  margin: 0 0 8px;
+  padding: 0 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: var(--gim-bg-header);
+  border-bottom: 2px solid var(--gim-border);
+  border-radius: var(--gim-radius) var(--gim-radius) 0 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gim-border) transparent;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-tabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-tabs::-webkit-scrollbar-thumb {
+  background: var(--gim-border);
+  border: none;
+  border-radius: 999px;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-tabs .item,
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-tabs a.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: auto !important;
+  margin: 0 0 -2px;
+  padding: 8px 10px;
+  overflow: hidden;
+  border-bottom: 3px solid transparent;
+  color: var(--gim-text-muted);
+  font-family: var(--gim-font);
+  font-size: var(--gim-font-sm);
+  font-weight: 500;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  white-space: nowrap;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-tabs .item:hover {
+  background: var(--gim-bg-hover);
+  color: var(--gim-text);
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-tabs .item.active {
+  border-bottom-color: var(--gim-accent);
+  color: var(--gim-accent);
+  font-weight: 600;
+  text-shadow: none;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .gurps-tabs .item i {
+  color: inherit;
+  font-size: 0.8rem;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .content {
+  padding: 0;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .tab {
+  padding: 1px 0;
+}
+
+/* Buttons ----------------------------------------------------------------- */
+
+.window-app.sheet.item.gurps-item-modern .item-editor button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: auto;
+  max-height: none;
+  min-height: 26px;
+  padding: 3px 12px;
+  background: var(--gim-bg-card);
+  border: 1px solid var(--gim-border);
+  border-radius: var(--gim-radius-sm);
+  box-shadow: none;
+  color: var(--gim-text);
+  font-family: var(--gim-font);
+  font-size: var(--gim-font-sm);
+  font-weight: 500;
+  line-height: 1.2;
+  text-shadow: none;
+  text-transform: none;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor button:hover {
+  background: var(--gim-bg-hover);
+  border-color: var(--gim-accent);
+  color: var(--gim-accent);
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor button:disabled {
+  background: var(--gim-bg-muted);
+  border-color: var(--gim-border);
+  color: var(--gim-text-dim);
+  cursor: default;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor button i {
+  color: inherit;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .button-bar {
+  display: flex;
+  justify-content: flex-start;
+  gap: 6px;
+  margin-top: 2px;
+  padding-top: 2px;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .button-bar button {
+  padding-right: 8px;
+  padding-left: 8px;
+  background: transparent;
+  border-color: transparent;
+  color: var(--gim-accent);
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .button-bar button:hover {
+  background: var(--gim-accent-light);
+  border-color: transparent;
+  color: var(--gim-text);
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .delete.button,
+.window-app.sheet.item.gurps-item-modern .item-editor h4.with-button .delete.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  float: none;
+  width: 24px;
+  height: 24px;
+  min-height: 24px;
+  margin-left: auto;
+  padding: 0;
+  background: var(--gim-danger-bg);
+  border: 1px solid transparent;
+  border-radius: var(--gim-radius-sm);
+  color: var(--gim-danger);
+  font-size: var(--gim-font-sm);
+  cursor: pointer;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .delete.button:hover,
+.window-app.sheet.item.gurps-item-modern .item-editor h4.with-button .delete.button:hover {
+  background: var(--gim-danger);
+  color: var(--gim-bg-card);
+  text-shadow: none;
+}
+
+/* Misc -------------------------------------------------------------------- */
+
+.window-app.sheet.item.gurps-item-modern .item-editor hr {
+  margin: 2px 0;
+  border: 0;
+  border-top: 1px solid var(--gim-border-light);
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor .vertical-gap {
+  height: 4px;
+}
+
+/* Scrollbars -------------------------------------------------------------- */
+
+.window-app.sheet.item.gurps-item-modern .item-editor::-webkit-scrollbar,
+.window-app.sheet.item.gurps-item-modern .item-editor textarea::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor::-webkit-scrollbar-track,
+.window-app.sheet.item.gurps-item-modern .item-editor textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor::-webkit-scrollbar-thumb,
+.window-app.sheet.item.gurps-item-modern .item-editor textarea::-webkit-scrollbar-thumb {
+  background: var(--gim-border);
+  border: 2px solid var(--gim-bg);
+  border-radius: 999px;
+}
+
+.window-app.sheet.item.gurps-item-modern .item-editor::-webkit-scrollbar-thumb:hover,
+.window-app.sheet.item.gurps-item-modern .item-editor textarea::-webkit-scrollbar-thumb:hover {
+  background: var(--gim-text-dim);
+}
+
+/* Resize handle ----------------------------------------------------------- */
+
+.window-app.sheet.item.gurps-item-modern .window-resizable-handle {
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
+  padding: 2px;
+  background: var(--gim-bg-header);
+  border: 1px solid var(--gim-border);
+  border-right: none;
+  border-bottom: none;
+  border-radius: var(--gim-radius-sm) 0 0 0;
+  color: var(--gim-text-muted);
+}
+
+.window-app.sheet.item.gurps-item-modern .window-resizable-handle i {
+  color: inherit;
+  font-size: 10px;
+}
+
+/* Dark theme -------------------------------------------------------------- */
+
+body.theme-dark .window-app.sheet.item.gurps-item-modern {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+}
+
+body.theme-dark .window-app.sheet.item.gurps-item-modern .item-editor::-webkit-scrollbar-thumb {
+  border-color: var(--gim-bg);
+}
+
+/* ==========================================================================
+   Ammunition panel (Modern actor sheet)
+   ========================================================================== */
+
+.gim-ammo-section {
+  --gim-ammo-font: "Roboto", "Signika", "Segoe UI", sans-serif;
+}
+
+/* The ammo card changes height during reload/sync; browser scroll anchoring
+   would otherwise move the Combat tab downward. */
+.modern-sheet .ms-body,
+.modern-sheet .ms-npc-body,
+.modern-sheet .tab.active,
+.window-app.sheet.actor .modern-sheet .window-content,
+.gim-ammo-section,
+.gim-ammo-section * {
+  overflow-anchor: none;
+}
+
+.gim-ammo-section .gim-ammo-header {
+  display: flex;
+  align-items: center;
+  gap: var(--ms-space-2, 4px);
+}
+
+.gim-ammo-section .gim-ammo-header > span {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-sync,
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-cleanup,
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-reset,
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  min-height: 22px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--ms-radius-sm, 3px);
+  box-shadow: none;
+  color: var(--ms-text-muted, #555555);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-sync {
+  margin-left: auto;
+}
+
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-sync:hover,
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-reset:hover {
+  background: var(--ms-accent-light, rgba(62, 106, 77, 0.1));
+  border-color: transparent;
+  color: var(--ms-accent, #3e6a4d);
+}
+
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-delete:hover {
+  background: rgba(179, 57, 57, 0.1);
+  border-color: transparent;
+  color: var(--ms-disadvantage, #b33939);
+}
+
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-cleanup:hover {
+  background: rgba(179, 57, 57, 0.1);
+  border-color: transparent;
+  color: var(--ms-disadvantage, #b33939);
+}
+
+.gim-ammo-section .gim-ammo-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ms-space-1, 2px);
+}
+
+.gim-ammo-section .gim-ammo-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ms-space-1, 2px);
+  padding: var(--ms-space-2, 4px) var(--ms-space-3, 6px);
+  border-bottom: 1px solid var(--ms-border-light, #e8e4dc);
+}
+
+.gim-ammo-section .gim-ammo-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  gap: var(--ms-space-4, 8px);
+  align-items: center;
+}
+
+.gim-ammo-section .gim-ammo-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--ms-space-2, 4px);
+  min-width: 0;
+}
+
+.gim-ammo-section .gim-ammo-meta .gim-ammo-type {
+  flex: 1 1 9em;
+  min-width: 0;
+}
+
+.gim-ammo-section .gim-ammo-meta .gim-ammo-link {
+  flex: 1 1 12em;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.gim-ammo-section .gim-ammo-row:last-child {
+  border-bottom: none;
+}
+
+.gim-ammo-section .gim-ammo-row:nth-child(odd) {
+  background: var(--ms-bg-section, #fafaf8);
+}
+
+.gim-ammo-section .gim-ammo-row--orphan .gim-ammo-name {
+  color: var(--ms-disadvantage, #b33939);
+  font-style: italic;
+}
+
+.gim-ammo-section .gim-ammo-name {
+  overflow: hidden;
+  color: var(--ms-text, #1a1a1a);
+  font-family: var(--gim-ammo-font);
+  font-size: var(--ms-font-sm, 0.8125rem);
+  font-weight: var(--ms-weight-medium, 500);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gim-ammo-section .gim-ammo-fields {
+  display: flex;
+  align-items: center;
+  gap: var(--ms-space-2, 4px);
+}
+
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-input[type="number"] {
+  width: 4.4em;
+  height: 24px;
+  min-height: 24px;
+  margin: 0;
+  padding: 1px 4px;
+  background: var(--ms-bg-card, #ffffff);
+  border: 1px solid var(--ms-border, #d8d4cc);
+  border-radius: var(--ms-radius-sm, 3px);
+  box-shadow: none;
+  color: var(--ms-text, #1a1a1a);
+  font-family: var(--gim-ammo-font);
+  font-size: var(--ms-font-sm, 0.8125rem);
+  font-variant-numeric: tabular-nums lining-nums;
+  text-align: center;
+  text-shadow: none;
+}
+
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-input[type="number"]:focus {
+  border-color: var(--ms-accent, #3e6a4d);
+  box-shadow: 0 0 0 2px var(--ms-accent-light, rgba(62, 106, 77, 0.1));
+  outline: none;
+}
+
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-input[type="number"]:disabled {
+  background: var(--ms-bg-section, #fafaf8);
+  color: var(--ms-text-dim, #888888);
+  opacity: 1;
+}
+
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-input[type="text"],
+.gim-ammo-section .gim-ammo-link {
+  height: 22px;
+  min-height: 22px;
+  margin: 0;
+  padding: 1px 5px;
+  background: var(--ms-bg-card, #ffffff);
+  border: 1px solid var(--ms-border, #d8d4cc);
+  border-radius: var(--ms-radius-sm, 3px);
+  box-shadow: none;
+  color: var(--ms-text, #1a1a1a);
+  font-family: var(--gim-ammo-font);
+  font-size: var(--ms-font-xs, 0.75rem);
+  text-shadow: none;
+}
+
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-input[type="text"]:focus,
+.gim-ammo-section .gim-ammo-link:focus {
+  border-color: var(--ms-accent, #3e6a4d);
+  box-shadow: 0 0 0 2px var(--ms-accent-light, rgba(62, 106, 77, 0.1));
+  outline: none;
+}
+
+.window-app.sheet.actor .modern-sheet .gim-ammo-section .gim-ammo-input[type="text"]:disabled,
+.gim-ammo-section .gim-ammo-link:disabled {
+  background: var(--ms-bg-section, #fafaf8);
+  color: var(--ms-text-dim, #888888);
+  opacity: 1;
+}
+
+/* Native option lists do not inherit the select colours in Electron. */
+.gim-ammo-section .gim-ammo-link option {
+  background-color: var(--ms-bg-card, #1e1e1e);
+  color: var(--ms-text, #e8e8e8);
+}
+
+.gim-ammo-section .gim-ammo-link option:checked {
+  background-color: var(--ms-accent-light, rgba(62, 106, 77, 0.18));
+  color: var(--ms-text, #e8e8e8);
+}
+
+.theme-dark .gim-ammo-section .gim-ammo-link {
+  color-scheme: dark;
+}
+
+.theme-dark .gim-ammo-section .gim-ammo-link option {
+  background-color: #2b2b2b;
+  color: #e8e8e8;
+}
+
+.gim-ammo-section .gim-ammo-input[type="text"]::placeholder {
+  color: var(--ms-text-dim, #888888);
+  opacity: 1;
+}
+
+.gim-ammo-section .gim-ammo-separator {
+  color: var(--ms-text-dim, #888888);
+  font-size: var(--ms-font-xs, 0.75rem);
+}
+
+.gim-ammo-section .gim-ammo-sync i,
+.gim-ammo-section .gim-ammo-cleanup i,
+.gim-ammo-section .gim-ammo-reset i,
+.gim-ammo-section .gim-ammo-delete i {
+  pointer-events: none;
+}
+
+.modern-sheet.ms-compact .gim-ammo-section .gim-ammo-row {
+  gap: var(--ms-space-1, 2px);
+  padding: var(--ms-space-1, 2px) var(--ms-space-2, 4px);
+}
+
+.modern-sheet.ms-compact .gim-ammo-section .gim-ammo-main {
+  gap: var(--ms-space-2, 4px);
+}
+
+.window-app.sheet.actor .modern-sheet.ms-compact .gim-ammo-section .gim-ammo-input[type="number"] {
+  width: 3.8em;
+}

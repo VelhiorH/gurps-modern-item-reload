@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>GURPS modern actor — ammo panel preview</title>
+    <link
+      rel="stylesheet"
+      href="file:///F:/Program%20Files/Foundry%20Virtual%20Tabletop/resources/app/public/fonts/fontawesome/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="file:///F:/Program%20Files/Foundry%20Virtual%20Tabletop/resources/app/public/css/foundry2.css"
+    />
+    <link
+      rel="stylesheet"
+      href="file:///C:/Users/User/AppData/Local/FoundryVTT/Data/systems/gurps/gurps.css"
+    />
+    <link rel="stylesheet" href="../styles/gurps-item-modern.css" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: #2a2a2a;
+      }
+      body {
+        padding: 20px;
+      }
+      .preview-root {
+        position: relative !important;
+        inset: auto !important;
+        width: 820px;
+        height: 700px;
+      }
+      .preview-note {
+        margin: 0 0 12px;
+        color: #ddd;
+        font: 13px/1.4 sans-serif;
+      }
+      .preview-root .window-content {
+        height: calc(100% - 30px);
+      }
+      .preview-root form,
+      .preview-root .modern-sheet {
+        height: 100%;
+      }
+      .preview-root .ms-body {
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body class="system-gurps">
+    <p class="preview-note">GURPS Modern actor sheet — панель «Боезапас» (light / dark через ?dark=1)</p>
+
+    <div class="app window-app sheet actor modern-sheet preview-root">
+      <header class="window-header flexrow">
+        <h4 class="window-title">Безымянный стрелок</h4>
+        <a class="header-button control close"><i class="fa-solid fa-times"></i></a>
+      </header>
+      <section class="window-content">
+        <form class="gurps actor sheet">
+          <div class="modern-sheet">
+            <header class="ms-header">
+              <div class="ms-portrait-wrapper">
+                <div class="ms-portrait"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" /></div>
+              </div>
+              <div class="ms-identity">
+                <div class="ms-identity-card">
+                  <div class="ms-name-container"><span class="ms-name">Безымянный стрелок</span></div>
+                  <div class="ms-tagline"><span class="ms-tag">Стрелок 250</span></div>
+                </div>
+              </div>
+              <div class="ms-secondary-stats">
+                <div class="ms-stat-box"><span class="ms-stat-label">HP</span><span class="ms-stat-value">12</span></div>
+                <div class="ms-stat-box"><span class="ms-stat-label">FP</span><span class="ms-stat-value">10</span></div>
+                <div class="ms-stat-box"><span class="ms-stat-label">Will</span><span class="ms-stat-value">11</span></div>
+                <div class="ms-stat-box"><span class="ms-stat-label">Per</span><span class="ms-stat-value">12</span></div>
+              </div>
+            </header>
+
+            <nav class="ms-tabs" data-group="modern-tabs">
+              <a class="ms-tab-item" data-tab="character"><i class="fa-solid fa-user"></i><span>Основное</span></a>
+              <a class="ms-tab-item active" data-tab="combat"><i class="fa-solid fa-swords"></i><span>Бой</span></a>
+              <a class="ms-tab-item" data-tab="equipment"><i class="fa-solid fa-backpack"></i><span>Снаряжение</span></a>
+              <a class="ms-tab-item" data-tab="notes"><i class="fa-solid fa-book"></i><span>Заметки</span></a>
+            </nav>
+
+            <section class="ms-body">
+              <div class="tab active" data-tab="combat" data-group="modern-tabs">
+                <div class="ms-attacks-section">
+                  <div class="ms-section" data-section="ranged">
+                    <h3 class="ms-section-header"><i class="fa-solid fa-crosshairs"></i><span>Дальний бой</span></h3>
+                    <div class="ms-section-content">
+                      <div class="ms-attacks-list ms-ranged-attacks">
+                        <div class="ms-attack-header">
+                          <span class="ms-attack-name">Дальний бой</span>
+                          <span class="ms-attack-usage">Режим</span>
+                          <span class="ms-attack-level">Уровень</span>
+                          <span class="ms-attack-damage">Урон</span>
+                          <span class="ms-attack-acc">Точность</span>
+                          <span class="ms-attack-range">Дистанция</span>
+                          <span class="ms-attack-bulk">Громоздкость</span>
+                          <span></span>
+                        </div>
+                        <div class="ms-attack-row">
+                          <span class="ms-attack-name"><a class="ms-dice-button">Винтовка</a></span>
+                          <span class="ms-attack-usage">single</span>
+                          <span class="ms-attack-level">14</span>
+                          <span class="ms-attack-damage">5d6 pi</span>
+                          <span class="ms-attack-acc">5</span>
+                          <span class="ms-attack-range">500/2500</span>
+                          <span class="ms-attack-bulk">-4</span>
+                          <span></span>
+                        </div>
+                        <div class="ms-attack-row">
+                          <span class="ms-attack-name"><a class="ms-dice-button">Пистолет</a></span>
+                          <span class="ms-attack-usage">single</span>
+                          <span class="ms-attack-level">13</span>
+                          <span class="ms-attack-damage">2d6 pi</span>
+                          <span class="ms-attack-acc">2</span>
+                          <span class="ms-attack-range">150/1500</span>
+                          <span class="ms-attack-bulk">-2</span>
+                          <span></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ms-section gim-ammo-section" data-gim-ammo>
+                  <h3 class="ms-section-header gim-ammo-header">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    <span>Боезапас</span>
+                    <button type="button" class="gim-ammo-sync" title="Синхронизировать трекеры боезапаса">
+                      <i class="fa-solid fa-arrows-rotate"></i>
+                    </button>
+                  </h3>
+                  <div class="gim-ammo-list">
+                    <div class="gim-ammo-row" data-source-id="rifle">
+                      <span class="gim-ammo-name" title="Винтовка">Винтовка</span>
+                      <div class="gim-ammo-fields">
+                        <input class="gim-ammo-input gim-ammo-current" type="number" min="0" step="1" value="27" />
+                        <span class="gim-ammo-separator">/</span>
+                        <input class="gim-ammo-input gim-ammo-max" type="number" min="0" step="1" value="31" />
+                      </div>
+                      <button type="button" class="gim-ammo-reset" title="Сбросить до максимума">
+                        <i class="fa-solid fa-rotate-left"></i>
+                      </button>
+                    </div>
+                    <div class="gim-ammo-row" data-source-id="pistol">
+                      <span class="gim-ammo-name" title="Пистолет">Пистолет</span>
+                      <div class="gim-ammo-fields">
+                        <input class="gim-ammo-input gim-ammo-current" type="number" min="0" step="1" value="8" />
+                        <span class="gim-ammo-separator">/</span>
+                        <input class="gim-ammo-input gim-ammo-max" type="number" min="0" step="1" value="8" />
+                      </div>
+                      <button type="button" class="gim-ammo-reset" title="Сбросить до максимума">
+                        <i class="fa-solid fa-rotate-left"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ms-combat-bottom">
+                  <div class="ms-combat-bottom-left">
+                    <div class="ms-section">
+                      <h3 class="ms-section-header"><i class="fa-solid fa-location-dot"></i><span>Зоны попадания</span></h3>
+                      <div class="ms-section-content"><div class="ms-empty">Нет данных</div></div>
+                    </div>
+                  </div>
+                  <div class="ms-combat-bottom-right">
+                    <div class="ms-section">
+                      <h3 class="ms-section-header"><i class="fa-solid fa-weight-hanging"></i><span>Нагрузка</span></h3>
+                      <div class="ms-section-content"><div class="ms-empty">Нет данных</div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <script>
+      if (new URLSearchParams(location.search).has('dark')) document.body.classList.add('theme-dark');
+    </script>
+  </body>
+</html>

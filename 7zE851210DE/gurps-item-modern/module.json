@@ -1,0 +1,46 @@
+{
+  "id": "gurps-item-modern",
+  "title": "GURPS Item Sheet: Modern",
+  "version": "1.2.3",
+  "authors": [
+    {
+      "name": "VelhiorH"
+    }
+  ],
+  "description": "Restyles the GURPS Foundry item sheets to match the Modern character sheet and adds per-actor ammunition tracking for ranged weapons (Shots/Бзс): automatic resource trackers, shot spending on attacks and manual current/max editing in the Modern actor sheet. Item functionality and templates are left untouched.",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "14.369",
+    "maximum": "14"
+  },
+  "esmodules": [
+    "scripts/main.mjs"
+  ],
+  "styles": [
+    "styles/gurps-item-modern.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "ru",
+      "name": "Русский",
+      "path": "lang/ru.json"
+    }
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "gurps",
+        "type": "system",
+        "compatibility": {
+          "minimum": "0.18.0"
+        }
+      }
+    ]
+  },
+  "flags": {}
+}
